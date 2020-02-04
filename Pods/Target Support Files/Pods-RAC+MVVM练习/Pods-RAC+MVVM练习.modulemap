@@ -1,0 +1,6 @@
+module Pods_RAC_MVVM__ {
+  umbrella header "Pods-RAC+MVVM练习-umbrella.h"
+
+  export *
+  module * { export * }
+}
