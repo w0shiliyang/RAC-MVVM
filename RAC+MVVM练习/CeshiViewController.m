@@ -36,13 +36,6 @@
     self.btn.rac_command = self.viewModel.command;
     __weak typeof(self) weakself = self;
     
-//    [[self.btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-//        weakself.activeView.hidden = NO;
-//        [[weakself.viewModel.command executionSignals] subscribeNext:^(id  _Nullable x) {
-//            weakself.activeView.hidden = YES;
-//        }];
-//    }];
-    
     [[self.viewModel.command executionSignals] subscribeNext:^(RACSignal * x) {
         weakself.activeView.hidden = NO;
         [x subscribeNext:^(id  _Nullable x) {

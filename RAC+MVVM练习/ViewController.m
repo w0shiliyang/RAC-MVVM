@@ -49,7 +49,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self racCommand];
+    
 }
 
 #pragma mark - notification
@@ -229,7 +229,6 @@
     [command execute:input];
 }
 
-#pragma mark - 高级使用
 #pragma mark - 两个信号的处理
 /// 1.0 初始化两个信号
 - (void)twoSignalInit {
