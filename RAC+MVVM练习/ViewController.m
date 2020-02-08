@@ -255,15 +255,7 @@
         NSLog(@"signal3-->%@",x);
     }];
 }
-/// 1.2、 combineLatestWith -- 将多个信号合并起来，并且拿到各个信号的最新的值,必须每个合并的signal至少都有过一次sendNext，才会触发合并的信号(订阅者每次接收的参数都是所有信号的最新值),不论触发哪个信号都会触发合并的信号
-- (void)combineLatestWith {
-    [self twoSignalInit];
-    RACSignal *signal3 = [self.signal1 combineLatestWith:self.signal2];
-    [signal3 subscribeNext:^(id  _Nullable x) {
-        NSLog(@"%@",x);
-    }];
-}
-/// 1.3、 then -- 用于连接两个信号，等待第一个信号完成，才会连接then返回的信号
+/// 1.2、 then -- 用于连接两个信号，等待第一个信号完成，才会连接then返回的信号
 - (void)thenAction {
     [self twoSignalInit];
     RACSignal *signal3 = [self.signal1 then:^RACSignal * _Nonnull{
@@ -273,7 +265,7 @@
         NSLog(@"signal3-->%@",x);
     }];
 }
-/// 1.4、 merge -- 把多个信号合并为一个信号来监听，任何一个信号有新值的时候就会调用
+/// 1.3、 merge -- 把多个信号合并为一个信号来监听，任何一个信号有新值的时候就会调用
 /// 一个信号signal3去监听signal1和signal2，每次回调一个信号
 - (void)merge {
     [self twoSignalInit];
@@ -282,13 +274,21 @@
         NSLog(@"signal3-->%@",x);
     }];
 }
-/// 1.5、 zipWith -- 把两个信号压缩成一个信号，只有当两个信号都发出信号内容时，才会触发
+/// 1.4、 zipWith -- 把两个信号压缩成一个信号，只有当两个信号都发出信号内容时，才会触发
 /// 一个信号signal3去监听signal1和signal2，但必须两个信号都有发出（不需要同时，例如signal1信号发出了，signal2信号等了10秒之后发出，那么signal3的订阅回调是等signal2信号发出的那一刻触发）
 - (void)zipWith {
     [self twoSignalInit];
     RACSignal *signal3 = [self.signal1 zipWith:self.signal2];
     [signal3 subscribeNext:^(id  _Nullable x) {
         NSLog(@"signal3-->%@",x);
+    }];
+}
+/// 1.5、 combineLatestWith -- 将多个信号合并起来，并且拿到各个信号的最新的值,必须每个合并的signal至少都有过一次sendNext，才会触发合并的信号(订阅者每次接收的参数都是所有信号的最新值),不论触发哪个信号都会触发合并的信号
+- (void)combineLatestWith {
+    [self twoSignalInit];
+    RACSignal *signal3 = [self.signal1 combineLatestWith:self.signal2];
+    [signal3 subscribeNext:^(id  _Nullable x) {
+        NSLog(@"%@",x);
     }];
 }
 /// 1.6、 combineLatest reduce 聚合 -- 把多个信号的值按照自定义的组合返回
@@ -313,7 +313,7 @@
     }];
 }
 
-/// 2、flattenMap & map 映射
+#pragma mark - flattenMap & map 映射
 /// flattenMap 的底层实现是通过bind实现的
 /// map 的底层实现是通过 flattenMap 实现的
 - (void)mapFlattenMap {
