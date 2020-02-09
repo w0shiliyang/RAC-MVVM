@@ -336,6 +336,35 @@
     }] ;
 }
 
+#pragma mark - filter -- 过滤、ignore -- 忽略、distinctUntilChanged -- 忽略相同
+/// filter ignore
+- (void)filterAndIgnore {
+    //添加条件 --  下面表示输入文字长度 > 10 时才会调用subscribeNext
+    [[self.textfield.rac_textSignal filter:^BOOL(NSString * _Nullable value) {
+        return value.length > 10;
+    }] subscribeNext:^(NSString * _Nullable x) {
+         NSLog(@"输入框内容：%@", x);
+    }];
+    //忽略掉值为"123"的信号
+    [[self.textfield.rac_textSignal ignore:@"123"] subscribeNext:^(id x) {
+        NSLog(@"%@",x);
+    }];
+}
+
+/// distinctUntilChanged
+- (void)distinctUntilChange{
+    RACSubject *subject = [RACSubject subject];
+    [[subject distinctUntilChanged] subscribeNext:^(id  _Nullable x) {
+        NSLog(@"-->%@",x);
+    }];
+    [subject sendNext:@"123"];
+    [subject sendNext:@"123"];
+    [subject sendNext:@"123"];
+    [subject sendNext:@"🍺🍺🍺🍺🍺🍺"];
+    [subject sendNext:@"🍺🍺🍺🍺🍺🍺"];
+    [subject sendCompleted];
+}
+
 #pragma mark - getter and setter
 - (CeshiAAA *)ceshiA {
     if (!_ceshiA) {
